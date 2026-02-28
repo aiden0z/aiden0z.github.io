@@ -30,7 +30,6 @@
       align-items: center;
       justify-content: center;
       background: #050505;
-      overflow: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -76,6 +75,7 @@
       z-index: 10;
       text-align: center;
       padding: 2rem;
+      margin-top: -5vh;
     }
 
     .quote-zh {
@@ -95,17 +95,67 @@
       color: rgba(255, 255, 255, 0.22);
       letter-spacing: 0.06em;
       margin-top: 1.1rem;
+      margin-bottom: 1.6rem;
       font-style: italic;
       animation: rise 2s 0.3s cubic-bezier(0.23, 1, 0.32, 1) both;
     }
 
-    .line {
-      display: block;
-      width: 1px;
-      height: 0;
-      background: rgba(255, 255, 255, 0.08);
-      margin: 0 auto;
-      animation: grow 0.8s 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    /* projects */
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      align-items: center;
+      opacity: 0;
+      animation: rise 1.4s 1.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+
+    .projects-label {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 400;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.18);
+    }
+
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .projects a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.35);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+      padding: 0.3rem 0;
+      transition: color 0.4s;
+    }
+
+    .projects a:hover { color: rgba(255, 255, 255, 0.65); }
+
+    .projects a .sep { color: rgba(255, 255, 255, 0.12); margin: 0 0.1rem; }
+    .projects a .desc { color: rgba(255, 255, 255, 0.2); font-style: italic; }
+    .projects a:hover .desc { color: rgba(255, 255, 255, 0.5); }
+
+    .projects a .arrow {
+      font-size: 0.7rem;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: all 0.35s;
+    }
+
+    .projects a:hover .arrow {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .links {
@@ -114,7 +164,8 @@
       justify-content: center;
       align-items: center;
       opacity: 0;
-      animation: rise 1.4s 1.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      animation: rise 1.4s 1.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      margin-bottom: 2.2rem;
     }
 
     .links a {
@@ -155,9 +206,15 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes grow {
-      from { height: 0; margin: 0 auto; }
-      to   { height: 2.8rem; margin: 2rem auto; }
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .glow { animation: none; }
+      canvas { display: none; }
     }
   </style>
 </head>
@@ -168,25 +225,35 @@
 
   <main>
     <p class="quote-zh">当舍于懈怠，远离诸愦闹</p>
-    <p class="quote-en">Abandon sloth, stay far from all distractions.</p>
-    <span class="line"></span>
+    <p class="quote-en" lang="en">Abandon sloth, stay far from all distractions.</p>
     <div class="links">
-      <a href="https://github.com/aiden0z" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      <a href="https://github.com/aiden0z" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         aiden0z
       </a>
       <span class="dot"></span>
-      <a href="https://x.com/aiden0xz" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <a href="https://x.com/aiden0xz" target="_blank" rel="noopener" aria-label="Twitter / X">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         aiden0xz
       </a>
+    </div>
+    <div class="projects">
+      <span class="projects-label">Projects</span>
+      <div class="projects-list">
+        <a href="/pptx-renderer/" rel="noopener">
+          PPTX Renderer <span class="sep">—</span> <span class="desc">Render PowerPoint in the browser</span> <span class="arrow">→</span>
+        </a>
+        <a href="https://github.com/aiden0z/guacamole-auth-jwt" target="_blank" rel="noopener">
+          Guacamole Auth JWT <span class="sep">—</span> <span class="desc">Guacamole authentication extension based on JWT</span> <span class="arrow">→</span>
+        </a>
+      </div>
     </div>
   </main>
 
   <script>
     const canvas = document.getElementById('stars');
     const ctx = canvas.getContext('2d');
-    let w, h, particles;
+    let w, h, particles, raf;
 
     function init() {
       w = canvas.width = window.innerWidth;
@@ -220,8 +287,17 @@
         ctx.fillStyle = `rgba(255,255,255,${a})`;
         ctx.fill();
       }
-      requestAnimationFrame(draw);
+      raf = requestAnimationFrame(draw);
     }
+
+    // Pause when tab is hidden to save resources
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+      } else {
+        raf = requestAnimationFrame(draw);
+      }
+    });
 
     init();
     draw();
