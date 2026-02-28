@@ -1,212 +1,231 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Aiden0Z - writing life</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="description" content="当舍于懈怠，远离诸愦闹 — Abandon sloth, stay far from all distractions." />
+  <meta property="og:title" content="Aiden" />
+  <meta property="og:description" content="当舍于懈怠，远离诸愦闹" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aiden0z.github.io" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@aiden0xz" />
+  <title>Aiden</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0a0a'/><text x='50' y='68' text-anchor='middle' font-size='56' font-family='serif' fill='%23ccc'>A</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300&family=Inter:wght@300;400&display=swap" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+    ::selection {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.9);
+    }
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+    body {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #050505;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
 
-<meta name="author" content="Aiden Luo" />
-  <meta name="description" content="Aiden&#39;s thinking" />
-  <meta name="keywords" content="life, code, thinking, programming" />
+    /* corner glow */
+    .glow {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 55% 50% at 0% 100%, rgba(70, 100, 255, 0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 50% at 100% 100%, rgba(160, 60, 240, 0.18) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 30% at 50% 0%, rgba(80, 80, 160, 0.06) 0%, transparent 60%);
+      animation: aurora 14s ease-in-out infinite alternate;
+    }
 
+    @keyframes aurora {
+      0%   { opacity: 0.7; filter: hue-rotate(0deg); }
+      50%  { opacity: 1;   filter: hue-rotate(25deg); }
+      100% { opacity: 0.8; filter: hue-rotate(-15deg); }
+    }
 
+    /* grain — below text */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 256px;
+      opacity: 0.4;
+    }
 
+    main {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem;
+    }
 
+    .quote-zh {
+      font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+      font-weight: 300;
+      font-size: clamp(1.3rem, 4vw, 2.4rem);
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.22em;
+      line-height: 1;
+      animation: rise 1.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
 
+    .quote-en {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: rgba(255, 255, 255, 0.22);
+      letter-spacing: 0.06em;
+      margin-top: 1.1rem;
+      font-style: italic;
+      animation: rise 2s 0.3s cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
 
-<meta name="generator" content="Hugo 0.89.2" />
+    .line {
+      display: block;
+      width: 1px;
+      height: 0;
+      background: rgba(255, 255, 255, 0.08);
+      margin: 0 auto;
+      animation: grow 0.8s 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
 
+    .links {
+      display: flex;
+      gap: 1.6rem;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      animation: rise 1.4s 1.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
 
-<link rel="canonical" href="http://localhost:1313/" />
-<link href="http://localhost:1313/index.xml" rel="alternate" type="application/rss+xml" title="Aiden0Z - writing life" />
-  <link href="http://localhost:1313/index.xml" rel="feed" type="application/rss+xml" title="Aiden0Z - writing life" />
+    .links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.25);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      padding: 0.35rem 0;
+      transition: color 0.4s;
+    }
 
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    .links a:hover { color: rgba(255, 255, 255, 0.72); }
 
+    .links a svg {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
 
+    .links a:hover svg { transform: scale(1.1); }
 
+    .dot {
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
 
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
-
-
-
-<meta property="og:title" content="Aiden0Z - writing life" />
-<meta property="og:description" content="Aiden&#39;s thinking" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://localhost:1313/" />
-
-<meta itemprop="name" content="Aiden0Z - writing life">
-<meta itemprop="description" content="Aiden&#39;s thinking"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Aiden0Z - writing life"/>
-<meta name="twitter:description" content="Aiden&#39;s thinking"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
+    @keyframes grow {
+      from { height: 0; margin: 0 auto; }
+      to   { height: 2.8rem; margin: 2rem auto; }
+    }
+  </style>
 </head>
 <body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">AidenX</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
+  <canvas id="stars"></canvas>
+  <div class="glow"></div>
+  <div class="grain"></div>
+
+  <main>
+    <p class="quote-zh">当舍于懈怠，远离诸愦闹</p>
+    <p class="quote-en">Abandon sloth, stay far from all distractions.</p>
+    <span class="line"></span>
+    <div class="links">
+      <a href="https://github.com/aiden0z" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        aiden0z
       </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">AidenX</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          
-  <section id="posts" class="posts">
-    
-    
-    
-      <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/">Posts</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-04-10 </span>
-      
-      
+      <span class="dot"></span>
+      <a href="https://x.com/aiden0xz" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        aiden0xz
+      </a>
     </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      
-    </div>
-    <div class="read-more">
-      <a href="/post/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
+  </main>
 
-    
-  </section>
-  
-  <nav class="pagination">
-    
-    
-  </nav>
+  <script>
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let w, h, particles;
 
-        </div>
-        
+    function init() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      const count = Math.floor((w * h) / 6000);
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 1.4 + 0.3,
+        dx: (Math.random() - 0.5) * 0.15,
+        dy: (Math.random() - 0.5) * 0.08,
+        alpha: Math.random() * 0.5 + 0.15,
+        pulse: Math.random() * Math.PI * 2,
+        pulseSpeed: Math.random() * 0.008 + 0.003,
+      }));
+    }
 
-      </div>
-    </main>
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of particles) {
+        p.x += p.dx;
+        p.y += p.dy;
+        p.pulse += p.pulseSpeed;
+        if (p.x < -10) p.x = w + 10;
+        if (p.x > w + 10) p.x = -10;
+        if (p.y < -10) p.y = h + 10;
+        if (p.y > h + 10) p.y = -10;
+        const a = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${a})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
 
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:aiden0xz@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/aiden0z" class="iconfont icon-github" title="github"></a>
-  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    
-      2017 - 
-    2022
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Aiden Luo</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
-
-
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
-
-
-
-
-
-
-
-
+    init();
+    draw();
+    window.addEventListener('resize', init);
+  </script>
 </body>
 </html>
